@@ -3,10 +3,10 @@ import os
 from werkzeug.utils import secure_filename
 
 # import functionalities
-from word_count import count_words
-from pos_tagging import pos_tag_text
-from keyword_extraction import extract_keywords
-from sentiment_analysis import analyze_sentiment
+from utils.word_count import count_words
+from utils.pos_tagging import pos_tag_text
+from utils.keyword_extraction import extract_keywords
+from utils.sentiment_analysis import analyze_sentiment
 
 
 app = Flask(__name__, static_folder='static')

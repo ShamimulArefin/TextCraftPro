@@ -11,5 +11,13 @@
           "src": "/(.*)",
           "dest": "api/app.py"
       }
-  ]
+  ],
+  "functions": {
+    "api/index.py": {
+        "includeFiles": [
+          "_utils/**",
+          "other_functions/**"
+        ]
+      }
+  }
 }
