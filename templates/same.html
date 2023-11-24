@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Craft Pro - Text Processing Tool</title>
+    <!-- Your existing head content -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('upload-form');
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // Create a FormData object to send the file and functionality
+                var formData = new FormData(form);
+
+                // Send a POST request to the server
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/', true);
+
+                // Define a callback function to handle the response
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Update the content of the page with the response
+                        document.getElementById('result-container').innerHTML = xhr.responseText;
+                    }
+                };
+
+                // Send the FormData object
+                xhr.send(formData);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Text Processing Tool</h1>
+    
+    <form id="upload-form" method="post" enctype="multipart/form-data">
+        <label for="file">Choose a file:</label>
+        <input type="file" name="file" accept=".txt, .pdf" required>
+        
+        <label for="functionality">Choose a functionality:</label>
+        <select name="functionality" id="functionality" required>
+            <option value="word_count">Word Count</option>
+            <option value="pos_tagging">Part-of-Speech Tagging</option>
+            <option value="keyword_extraction">Keyword Extraction</option>
+            <option value="sentiment_analysis">Sentiment Analysis</option>
+        </select>
+        
+        <button type="submit">Process</button>
+    </form>
+
+    <div id="result-container">
+        <!-- Display results here -->
+        <h1>Text Processing Results for {{ filename }}</h1>
+    
+        {% if result %}
+            {% if functionality == 'word_count' %}
+                <h2>Word Count: {{ result }}</h2>
+            {% elif functionality == 'pos_tagging' %}
+                <h2>Part-of-Speech Tagging:</h2>
+                <ul>
+                    {% for word, pos_tag in result %}
+                        <li>{{ word }} - {{ pos_tag }}</li>
+                    {% endfor %}
+                </ul>
+            {% elif functionality == 'keyword_extraction' %}
+                <h2>Top Keywords:</h2>
+                <ul>
+                    {% for keyword, frequency in result['top_keywords'] %}
+                        <li>{{ keyword }} - {{ frequency }}</li>
+                    {% endfor %}
+                </ul>
+    
+                <!-- Display Bar Plot image -->
+                <h2>Top Keywords Bar Plot:</h2>
+                <img src="{{ url_for('static', filename='s/barplots/top_keywords_barplot.png') }}" alt="Top Keywords Bar Plot">
+                {% elif functionality == 'sentiment_analysis' %}
+                <h2>Sentiment Analysis:</h2>
+                <p>Sentiment: {{ result['Sentiment'] }}</p>
+                <p>Sentiment Scores: {{ result['Sentiment Score'] }}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>

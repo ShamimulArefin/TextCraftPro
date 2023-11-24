@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Craft Pro - Text Processing Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        select {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('upload-form');
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // Create a FormData object to send the file and functionality
+                var formData = new FormData(form);
+
+                // Send a POST request to the server
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/', true);
+
+                // Define a callback function to handle the response
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Update the content of the page with the response
+                        document.getElementById('result-container').innerHTML = xhr.responseText;
+                    }
+                };
+
+                // Send the FormData object
+                xhr.send(formData);
+            });
+        });
+    </script>
+<script>
+    window.addEventListener('beforeunload', function (event) {
+        // Send a request to the server to delete the uploaded file
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/delete_uploaded_file', true);
+        xhr.send();
+    });
+</script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav justify-content-center">
+                    <li class="nav-item">
+                      <h4><a class="nav-link active" href="/">TextCraftPro</a></h4>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- form -->
+                <form class="row g-3" method="post" enctype="multipart/form-data">
+                    <!-- <div class="col-md-3"></div>
+                    <div class="col-md-6 input-group mb-2">
+                        <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                        <input type="file" class="form-control" id="inputGroupFile01">
+                    </div> -->
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <!-- <label for="formFileLg" class="form-label">Large file input example</label> -->
+                        <input class="form-control form-control-lg" name="file" id="formFileLg" type="file" accept=".txt, .pdf" required>
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <select class="form-select form-select-lg mb-3" aria-label="Large select example" name="functionality" id="functionality" required>
+                            <option selected>Choose Functionality</option>
+                            <option value="word_count">Word Count</option>
+                            <option value="pos_tagging">Part-of-Speech Tagging</option>
+                            <option value="keyword_extraction">Keyword Extraction</option>
+                            <option value="sentiment_analysis">Sentiment Analysis</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-12">
+                      <button class="btn btn-primary" type="submit">Process</button>
+                    </div>
+                </form>
+                <!-- end form -->
+                <!-- <h1>Text Processing Tool</h1>
+                <form method="post" enctype="multipart/form-data">
+                    <label for="file">Choose a file:</label>
+                    <input type="file" name="file" accept=".txt, .pdf" required>
+                    
+                    <label for="functionality">Choose a functionality:</label>
+                    <select name="functionality" id="functionality" required>
+                        <option value="word_count">Word Count</option>
+                        <option value="pos_tagging">Part-of-Speech Tagging</option>
+                        <option value="keyword_extraction">Keyword Extraction</option>
+                        <option value="sentiment_analysis">Sentiment Analysis</option>
+                    </select>
+                    
+                    <button type="submit">Process</button>
+                </form> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- result page shows -->
+    <div class="container" id="result-container">
+        <div class="row">
+            <div class="col-md-12">
+                {% if result %}
+                    {% if functionality == 'word_count' %}
+                        <h2>Word Count: {{ result }}</h2>
+                    {% elif functionality == 'pos_tagging' %}
+                        <h2>Part-of-Speech Tagging:</h2>
+                        <ul>
+                            {% for word, pos_tag in result %}
+                                <li>{{ word }} - {{ pos_tag }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% elif functionality == 'keyword_extraction' %}
+                        <h2>Top Keywords:</h2>
+                        <ul>
+                            {% for keyword, frequency in result['top_keywords'] %}
+                                <li>{{ keyword }} - {{ frequency }}</li>
+                            {% endfor %}
+                        </ul>
+            
+                        <!-- Display Bar Plot image -->
+                        <h2>Top Keywords Bar Plot:</h2>
+                        <img src="{{ url_for('static', filename='s/barplots/top_keywords_barplot.png') }}" alt="Top Keywords Bar Plot">
+                        {% elif functionality == 'sentiment_analysis' %}
+                        <h2>Sentiment Analysis:</h2>
+                        <p>Sentiment: {{ result['Sentiment'] }}</p>
+                        <p>Sentiment Scores: {{ result['Sentiment Score'] }}</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
