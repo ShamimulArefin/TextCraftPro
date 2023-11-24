@@ -1,21 +1,20 @@
 {
-    "version": 2,
-    "builds": [
+  "version": 2,
+  "builds": [
       {
-        "src": "api/app.py",
-        "use": "@vercel/python"
+          "src": "api/app.py",
+          "use": "@vercel/python"
       }
-    ],
-    "routes": [
+  ],
+  "routes": [
       {
-        "src": "/(.*)",
-        "dest": "api/app.py"
+          "src": "/(.*)",
+          "dest": "api/app.py"
       }
-    ],
-    "functions": {
-      "api/index.py": {
-        "includeFiles": "_utils/**, other_functions/**"
+  ],
+  "functions": {
+    "api/app.py": {
+        "includeFiles": "_utils/**"
       }
-    }
   }
-  
+}
