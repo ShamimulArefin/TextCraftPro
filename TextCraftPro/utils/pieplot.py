@@ -16,6 +16,8 @@ def get_plot(sentiment_score):
     plt.switch_backend('AGG')
     ingredients = list(sentiment_score.keys())
     data = list(sentiment_score.values())
+    # Ensure non-negative values for the pie chart
+    data = [max(0, value) for value in data]
     fig, ax = plt.subplots(figsize=(10, 5), subplot_kw=dict(aspect="equal"))
     wedges, texts, autotexts = ax.pie(data, autopct='%1.1f%%',
                                   textprops=dict(color="w"))
