@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TextCraftPro - Text Processing Tool</title>
+    <link rel="icon" type="image/x-icon" href="../static/home_assets/textcraftpro.svg">
     <!-- Add the Bootstrap CSS link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -35,29 +36,29 @@
               <div class="col d-flex align-items-start">
                 <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#bootstrap"/></svg>
                 <div>
-                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Word Count</h3>
-                  <p>Paragraph of text beneath the heading to explain the heading.</p>
+                  <h3 class="fw-bold mb-1 fs-4 text-body-emphasis">Word Count</h3>
+                  <p>Calculate the total number of words, Sentences, Paragraphs, Characters in a text, providing a quick overview of its length.</p>
                 </div>
               </div>
               <div class="col d-flex align-items-start">
                 <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#cpu-fill"/></svg>
                 <div>
-                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Part of Speech Tagging</h3>
-                  <p>Paragraph of text beneath the heading to explain the heading.</p>
+                  <h3 class="fw-bold mb-1 fs-4 text-body-emphasis">Part of Speech Tagging</h3>
+                  <p>Identify and label different parts of speech in a text for a deeper linguistic analysis.</p>
                 </div>
               </div>
               <div class="col d-flex align-items-start">
                 <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#calendar3"/></svg>
                 <div>
-                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Keyword Extraction</h3>
-                  <p>Paragraph of text beneath the heading to explain the heading.</p>
+                  <h3 class="fw-bold mb-1 fs-4 text-body-emphasis">Keyword Extraction</h3>
+                  <p>Extract important keywords list and visual plot from a text, aiding in summarization and content analysis.</p>
                 </div>
               </div>
               <div class="col d-flex align-items-start">
                 <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#home"/></svg>
                 <div>
-                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Sentiment Analysis</h3>
-                  <p>Paragraph of text beneath the heading to explain the heading.</p>
+                  <h3 class="fw-bold mb-1 fs-4 text-body-emphasis">Sentiment Analysis</h3>
+                  <p>Analyze text to determine whether it expresses a positive, negative, or neutral sentiment, useful for understanding emotional tone.</p>
                 </div>
               </div>
             </div>
@@ -71,13 +72,7 @@
                   <!-- <div class="h-100 p-5 text-bg-dark rounded-3"> -->
                   <div class="h-100 p-5 tbg-body-tertiary border rounded-3">
                     <h3 class="fw-bold fs-4 text-body-emphasis">Upload Text File</h3>
-                    <p>Start by uploading your text file. Click on the "Choose a file" button and select a .txt or .pdf file from your computer. Then select functionality and Click "Process".</p>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-                    <h3 class="fw-bold fs-4 text-body-emphasis">Enter URL</h3>
-                    <p>Entering webpage URL (viewers have access to crawl the webpage) to specific areas. Then choosing functionality and click "Process".</p>
+                    <p>Start by uploading your text file. Click on the "Choose a file" button and select a .txt file from your computer. Then select functionality and Click "Process".</p>
                   </div>
                 </div>
             </div>
@@ -89,16 +84,16 @@
             <h2 class="pb-2 border-bottom">Functionalities Demo</h2>
             <div class="row py-5">
                 <div class="col-md-3">
-                    <img src="../static/home_assets/feature1.png" class="img-thumbnail" alt="Image 1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img src="../static/home_assets/Word-count.png" class="img-thumbnail" alt="Image 1" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 </div>
                 <div class="col-md-3">
-                    <img src="../static/home_assets/feature1.png" class="img-thumbnail" alt="Image 1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img src="../static/home_assets/Sentiment-analysis.png" class="img-thumbnail" alt="Image 1" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 </div>
                 <div class="col-md-3">
-                    <img src="../static/home_assets/feature1.png" class="img-thumbnail" alt="Image 1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img src="../static/home_assets/Keyword-extraction.png" class="img-thumbnail" alt="Image 1" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 </div>
                 <div class="col-md-3">
-                    <img src="../static/home_assets/feature1.png" class="img-thumbnail" alt="Image 1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img src="../static/home_assets/partofspeech.png" class="img-thumbnail" alt="Image 1" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 </div>
             </div>
             <!-- modal -->
@@ -118,13 +113,12 @@
         <!-- end demo -->
 
         <!-- subscription section -->
-        <div class="container px-4 py-3">
+        <!-- <div class="container px-4 py-3">
             <div class="row justify-content-center">
               <div class="col-md-6 text-center">
                 <h2>Subscribe for Updates</h2>
                 <p>Stay in the loop with our latest news, updates, and exclusive offers.</p>
         
-                <!-- Subscription Form -->
                 <form>
                   <div class="input-group mb-3">
                     <input type="email" class="form-control" placeholder="Enter your email" aria-label="Enter your email" aria-describedby="subscribeButton">
@@ -133,7 +127,7 @@
                 </form>
               </div>
             </div>
-        </div>
+        </div> -->
         <!-- end subscription -->
 
         <!-- footer section -->
@@ -141,9 +135,9 @@
             <footer class="py-3 my-4">
               <ul class="nav justify-content-center border-bottom pb-3 mb-3">
                 <li class="nav-item"><a href="" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="mailto:shamimularefin@gmail.com" class="nav-link px-2 text-body-secondary">Contact</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Privacy Policy</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Terms and Conditions</a></li>
+                <li class="nav-item"><a href="mailto:arefins106@gmail.com" class="nav-link px-2 text-body-secondary">Contact</a></li>
+                <li class="nav-item"><a href="/privacy-policy" class="nav-link px-2 text-body-secondary">Privacy Policy</a></li>
+                <li class="nav-item"><a href="/terms-and-conditions" class="nav-link px-2 text-body-secondary">Terms and Conditions</a></li>
               </ul>
               <p class="text-center text-body-secondary">&copy; 2023 TextCraftPro. All rights reserved. Developed by <a href="https://github.com/ShamimulArefin" target="_blank">Md Shamimul Arefin</a> &#10084;</p>
             </footer>

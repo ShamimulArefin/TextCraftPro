@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, redirect
+from flask import Flask, render_template, request, redirect
 import os
 from werkzeug.utils import secure_filename
 
@@ -8,12 +8,12 @@ from utils.pos_tagging import pos_tag_text
 from utils.keyword_extraction import extract_keywords
 from utils.sentiment_analysis import analyze_sentiment
 
-
 app = Flask(__name__, static_folder='static')
+app.secret_key = '8sdf8932hjksdf!@#$%^&*()_+'
 
 # configure user upload folder
 app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['ALLOWED_EXTENSIONS'] = {'txt', 'pdf'}
+app.config['ALLOWED_EXTENSIONS'] = {'txt'}
 
 # ensure the upload folder exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -43,32 +43,33 @@ def index():
 
         # check if the file is allowed
         if file and allowed_file(file.filename):
+
             # save file to upload folder
             filename = secure_filename(file.filename)
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(filepath)
 
-            # process the file based on user selected functionality
-            functionality = request.form.get('functionality')
-            result = process_file(filepath, functionality)
+            wordCount = count_words(filepath)
+            extractKeywords = extract_keywords(filepath)
+            sentimentAnalyze = analyze_sentiment(filepath)
+            posTag = pos_tag_text(filepath)
+            result = [wordCount, extractKeywords, sentimentAnalyze, posTag]
 
-            return render_template('result.html', filename=filename, functionality=functionality, result=result)
-    return render_template('bui.html')
+            return render_template('output.html', filename=filename, result=result)
+    return render_template('form_template.html')
 
-def process_file(file_path, functionality):
-    if functionality == 'word_count':
-        return count_words(file_path)
-    elif functionality == 'pos_tagging':
-        return pos_tag_text(file_path)
-    elif functionality == 'keyword_extraction':
-        return extract_keywords(file_path)
-    elif functionality == 'sentiment_analysis':
-        return analyze_sentiment(file_path)
-    else:
-        return None
+# show privacy policy page
+@app.route('/privacy-policy')
+def privacy():
+    return render_template('privacy_policy.html')
+
+# show terms and conditions page
+@app.route('/terms-and-conditions')
+def terms():
+    return render_template('terms_conditions.html')
 
 # automated cleanup uploaded file
-# delete file  
+# delete file after closing tab
 @app.route('/delete_uploaded_file', methods=['POST'])
 def delete_uploaded_file():
     # Specify the folder where uploaded files are stored

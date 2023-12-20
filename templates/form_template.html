@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextCraftPro - Text Processing Tool</title>
+    <link rel="icon" type="image/x-icon" href="../static/home_assets/textcraftpro.svg">
+
+    <!-- Add the Bootstrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        select {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+        }
+
+        #result-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container bg-body-tertiary rounded-3">
+        <!-- hero section -->
+        <div class="px-4 py-5 my-2 text-center">
+            <a href="/"><img class="d-block mx-auto mb-3" src="../static/home_assets/textcraftpro.svg" alt="" width="72" height="57"></a>
+            <h1 class="display-5 fw-bold text-body-emphasis">Process Your Text</h1>
+            <div class="col-lg-6 mx-auto">
+                <form id="upload-form" class="mb-4" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Choose a '.txt' file:</label>
+                        <input type="file" class="form-control" name="file" accept=".txt, .pdf" required>
+                    </div>
+                    
+                    <!-- <div class="mb-3">
+                        <label for="functionality" class="form-label">Choose functionality:</label>
+                        <select class="form-select" name="functionality" id="functionality" required>
+                            <option value="word_count">Word Count</option>
+                            <option value="pos_tagging">Part-of-Speech Tagging</option>
+                            <option value="keyword_extraction">Keyword Extraction</option>
+                            <option value="sentiment_analysis">Sentiment Analysis</option>
+                        </select>
+                    </div> -->
+                    <button type="submit" class="btn btn-lg px-4 gap-3 " style="color: white; background-color: #580EEB;">Get Started
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="result-container">
+            {% if result %}
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Add the Bootstrap JS and Popper.js scripts (required for Bootstrap components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Your existing JavaScript code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('upload-form');
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // Create a FormData object to send the file and functionality
+                var formData = new FormData(form);
+
+                // Send a POST request to the server
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/process-text', true);
+
+                // Define a callback function to handle the response
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Update the content of the page with the response
+                        document.getElementById('result-container').innerHTML = xhr.responseText;
+                    }
+                };
+
+                // Send the FormData object
+                xhr.send(formData);
+            });
+        });
+    </script>
+    <script>
+        window.addEventListener('beforeunload', function (event) {
+            // Send a request to the server to delete the uploaded file
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/delete_uploaded_file', true);
+            xhr.send();
+        });
+    </script>
+</body>
+</html>

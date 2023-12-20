@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Processing Tool</title>
+    <link rel="icon" type="image/x-icon" href="../static/home_assets/textcraftpro.svg">
+
+    <!-- Add the Bootstrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container bg-body-tertiary rounded-3">
+        {% if result %}
+        <!-- Counts Section -->
+        <div class="container px-4 py-3" id="icon-grid">
+            <h2 class="pb-2 border-bottom text-center">Counts</h2>
+        
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+              {% for title, count in result[0].items() %}
+              <div class="col d-flex align-items-start">
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">{{title}}</h3>
+                  <h4>{{count}}</h4>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+        </div>
+        <!-- end Counts -->
+        <!-- Text Extraction Section -->
+        <div class="container px-4 py-3" id="icon-grid">
+            <h2 class="pb-2 border-bottom text-center">Top Keywords</h2>
+            <div class="row align-items-md-stretch py-5">
+                <div class="col-md-3">
+                  <div class="h-100">
+                    <ul class="list-group">
+                        {% for keyword, frequency in result[1]['top_keywords'] %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ keyword }}
+                          <span class="badge bg-primary rounded-pill">{{ frequency }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-9">
+                  <div class="h-100">
+                    {% if result[1]['barplot'] %}
+                    <img src="data:image/png;base64, {{result[1]['barplot']|safe}}" class="rounded img-fluid" alt="barplot">
+                    {% else %}
+                    <h2>Internal Error! No Plot found.</h2>
+                    {% endif %}
+                  </div>
+                </div>
+            </div>
+        </div>
+        <!-- end Text Extraction -->
+
+        <!-- Sentiment Analysis Section -->
+        <div class="container px-4 py-3" id="icon-grid">
+            <h2 class="pb-2 border-bottom text-center">Sentiment Analysis</h2>
+            <div class="row align-items-md-stretch py-5">
+                <div class="col-md-3">
+                    <div class="h-100">
+                        <h4>Sentiment Score</h4>
+                        <ul class="list-group p-3">
+                            {% for key, value in result[2]['Sentiment Score'].items() %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {% if key=='neg' %}
+                                    Negative
+                                {% elif key=='neu' %}
+                                    Neutral
+                                {% elif key=='pos' %}
+                                    Positive
+                                {% else %}
+                                    Mixed
+                                {% endif %}
+                                <span class="badge bg-primary rounded-pill">{{ value }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <h4>Your text contains <span style="background: #ff7f50;">{{result[2]['Sentiment']}}</span> contents.</h4>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="h-100">
+                    {% if result[2]['sentimentPie'] %}
+                    <img src="data:image/png;base64, {{result[2]['sentimentPie']|safe}}" class="rounded img-fluid" alt="barplot">
+                    {% else %}
+                    <h2>Internal Error! No chart found.</h2>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end Sentiment Analysis -->
+
+        <!-- Pos Tag Section -->
+        <div class="container px-4 py-3" id="icon-grid">
+            <h2 class="pb-2 border-bottom text-center">Parts-Of-Speech Tagging</h2>
+            <div class="row align-items-md-stretch py-5">
+                <div class="col-md-12">
+                    <div class="h-100">
+                        {% for tag, words in result[3].items() %}
+                        <p><b>{{tag}}</b>:
+                            {% for word in words %}
+                            {{word}}, 
+                            {% endfor %}
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end Pos Tag -->
+
+        <!-- footer section -->
+        <div class="container">
+            <footer class="py-3 my-4">
+              <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Home</a></li>
+                <li class="nav-item"><a href="mailto:arefins106@gmail.com" class="nav-link px-2 text-body-secondary">Contact</a></li>
+                <li class="nav-item"><a href="/privacy-policy" class="nav-link px-2 text-body-secondary">Privacy Policy</a></li>
+                <li class="nav-item"><a href="/terms-and-conditions" class="nav-link px-2 text-body-secondary">Terms and Conditions</a></li>
+              </ul>
+              <p class="text-center text-body-secondary">&copy; 2023 TextCraftPro. All rights reserved. Developed by <a href="https://github.com/ShamimulArefin" target="_blank">Md Shamimul Arefin</a> &#10084;</p>
+            </footer>
+        </div>
+        <!-- end footer -->
+        {% endif %}
+    </div>
+
+    <!-- Add the Bootstrap JS and Popper.js scripts (required for Bootstrap components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Your existing JavaScript code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('upload-form');
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // Create a FormData object to send the file and functionality
+                var formData = new FormData(form);
+
+                // Send a POST request to the server
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/process-text', true);
+
+                // Define a callback function to handle the response
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Update the content of the page with the response
+                        document.getElementById('result-container').innerHTML = xhr.responseText;
+                    }
+                };
+
+                // Send the FormData object
+                xhr.send(formData);
+            });
+        });
+    </script>
+    <script>
+      window.addEventListener('beforeunload', function (event) {
+          // Send a request to the server to delete the uploaded file
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/delete_uploaded_file', true);
+          xhr.send();
+      });
+  </script>
+</body>
+</html>

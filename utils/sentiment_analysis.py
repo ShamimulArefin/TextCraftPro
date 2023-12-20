@@ -1,6 +1,7 @@
 from nltk.sentiment import SentimentIntensityAnalyzer
 import nltk
 nltk.download('vader_lexicon')
+from .pieplot import *
 
 def analyze_sentiment(file_path):
     with open(file_path, 'r') as file:
@@ -16,7 +17,11 @@ def analyze_sentiment(file_path):
         else:
             sentiment = 'Neutral'
 
+        # get sentiment pie plot
+        plot = get_plot(sentiment_score)
+        
         return {
             'Sentiment Score': sentiment_score,
-            'Sentiment': sentiment
+            'Sentiment': sentiment,
+            'sentimentPie':plot
         }
