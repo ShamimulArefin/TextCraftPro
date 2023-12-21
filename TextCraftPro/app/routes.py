@@ -59,6 +59,8 @@ def create_app():
                 result = [wordCount, extractKeywords, sentimentAnalyze, posTag]
 
                 return render_template('output.html', filename=filename, result=result)
+            else:
+                return render_template('output.html', error_message="Invalid file type. Please upload a valid text file (e.g., .txt).")
         return render_template('form_template.html')
     
     # show privacy policy page

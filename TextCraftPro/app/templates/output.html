@@ -12,6 +12,9 @@
 
 <body>
     <div class="container bg-body-tertiary rounded-3">
+        {% if error_message %}
+        <h4 style="color: red;">{{error_message}}</h4>
+        {% endif %}
         {% if result %}
         <!-- Counts Section -->
         <div class="container px-4 py-3" id="icon-grid">
