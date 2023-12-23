@@ -24,6 +24,10 @@ def create_app():
     # Function to check file extension is allowed
     def allowed_file(filename):
         return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+    # check the uploaded file is empty or not
+    def is_empty_file(file_path):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return not bool(file.read().strip())
 
     # main home page
     @main_bp.route('/')
@@ -51,6 +55,9 @@ def create_app():
                 filename = secure_filename(file.filename)
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 file.save(filepath)
+
+                if is_empty_file(filepath):
+                    return render_template('output.html', empty_error_message="The uploaded file is empty. Please upload a file with content.")
 
                 wordCount = count_words(filepath)
                 extractKeywords = extract_keywords(filepath)

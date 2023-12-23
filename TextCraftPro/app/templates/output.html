@@ -12,6 +12,9 @@
 
 <body>
     <div class="container bg-body-tertiary rounded-3">
+        {% if empty_error_message %}
+        <h4 style="color: red;">{{empty_error_message}}</h4>
+        {% endif %}
         {% if error_message %}
         <h4 style="color: red;">{{error_message}}</h4>
         {% endif %}
