@@ -1,20 +1,22 @@
+# Import necessary modules and functions from Flask
 from flask import Flask, Blueprint, render_template, request, redirect
 import os
 from werkzeug.utils import secure_filename
 
-# import functionalities
+# Import custom functionalities from the 'utils' module
 from TextCraftPro.utils.word_count import count_words
 from TextCraftPro.utils.pos_tagging import pos_tag_text
 from TextCraftPro.utils.keyword_extraction import extract_keywords
 from TextCraftPro.utils.sentiment_analysis import analyze_sentiment
 
-# create blueprint
+# Create a Blueprint to organize routes and views
 main_bp = Blueprint('main', __name__, static_folder='static', template_folder='templates')
 
+# Function to create the Flask application instance
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
-    # configure user upload folder
+    # configure user upload folder and allowed file
     app.config['UPLOAD_FOLDER'] = 'TextCraftPro/app/uploads'
     app.config['ALLOWED_EXTENSIONS'] = {'txt'}
 
@@ -56,9 +58,11 @@ def create_app():
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 file.save(filepath)
 
+                # check the file is empty or not
                 if is_empty_file(filepath):
                     return render_template('output.html', empty_error_message="The uploaded file is empty. Please upload a file with content.")
-
+                
+                # Process the file based on functionalities
                 wordCount = count_words(filepath)
                 extractKeywords = extract_keywords(filepath)
                 sentimentAnalyze = analyze_sentiment(filepath)
@@ -100,4 +104,5 @@ def create_app():
                 print(f"Error deleting file {file_path}: {e}")
         return 'Files deleted successfully'
     
+    # Return the Flask app instance
     return app

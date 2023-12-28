@@ -2,6 +2,10 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 
+"""
+Generates a graph image from the current Matplotlib figure and 
+returns it as a base64-encoded string (decoding to utf-8 for html).
+"""
 def get_graph():
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
@@ -12,6 +16,13 @@ def get_graph():
     buffer.close()
     return graph
 
+"""
+Generates a pie chart plot from sentiment scores and returns
+the plot as a base64-encoded string.
+    
+Args:
+sentiment_score (dict): A dictionary containing sentiment scores.
+"""
 def get_plot(sentiment_score):
     plt.switch_backend('AGG')
     ingredients = list(sentiment_score.keys())

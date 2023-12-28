@@ -3,6 +3,16 @@ import nltk
 nltk.download('vader_lexicon')
 from .pieplot import *
 
+"""
+Analyze sentiment of the text in the given file.
+
+Parameters:
+    - file_path (str): The path to the text file.
+
+Returns:
+    - dict: A dictionary containing sentiment analysis results, including sentiment scores,
+            sentiment classification, and a pie chart visualizing the sentiment distribution.
+"""
 def analyze_sentiment(file_path):
     with open(file_path, 'r') as file:
         text = file.read()

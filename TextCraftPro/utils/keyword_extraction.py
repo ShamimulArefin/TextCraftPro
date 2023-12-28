@@ -7,6 +7,15 @@ nltk.download('punkt')
 
 from .barplot import *
 
+"""
+Extracts the top keywords and their frequencies from a text file.
+
+Parameters:
+    - file_path (str): The path to the input text file.
+
+Returns:
+    - dict: A dictionary containing the top keywords and a bar plot.
+"""
 def extract_keywords(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         text = file.read()
